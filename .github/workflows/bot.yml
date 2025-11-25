@@ -2,12 +2,13 @@ name: FreeGameHost-Renew-Bot
 
 on:
   schedule:
-    - cron: "*/30 * * * *"
-  workflow_dispatch: 
+    - cron: "0 * * * *"   # Cada hora exacta
+  workflow_dispatch:
 
 jobs:
   run-bot:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -21,6 +22,7 @@ jobs:
         run: npm install puppeteer
 
       - name: Run Bot
-        env:
-          COOKIES: ${{ secrets.COOKIES }}
         run: node bot.js
+        env:
+          EMAIL: ${{ secrets.EMAIL }}
+          PASSWORD: ${{ secrets.PASSWORD }}
