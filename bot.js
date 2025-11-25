@@ -1,7 +1,16 @@
-const puppeteer = require("puppeteer");
-const fs = require("fs");
+import puppeteer from "puppeteer";
 
 async function runBot() {
+  console.log("Iniciando bot...");
+
+  // Leer cookies desde GitHub Secrets
+  if (!process.env.COOKIES) {
+    console.error("ERROR: No existe el secret COOKIES");
+    process.exit(1);
+  }
+
+  const cookies = JSON.parse(process.env.COOKIES);
+
   const browser = await puppeteer.launch({
     headless: true,
     args: ["--no-sandbox", "--disable-setuid-sandbox"]
@@ -9,26 +18,24 @@ async function runBot() {
 
   const page = await browser.newPage();
 
-  // Cargar cookies
-  const cookies = JSON.parse(fs.readFileSync("cookies.json"));
+  // Colocar cookies en la página
   await page.setCookie(...cookies);
 
-  // Ir directamente al servidor
+  console.log("Cookies cargadas. Navegando al panel...");
+
   await page.goto("https://panel.freegamehost.xyz/server/bb072ba6", {
     waitUntil: "networkidle2"
   });
 
   console.log("Página cargada. Buscando botón Renew...");
 
-  // Esperar al botón (usa el selector real)
-  await page.waitForSelector('span.Button___StyledSpan-sc-1qu1gou-2', {
-    timeout: 60000
-  });
-
-  // Dar clic
-  await page.click('span.Button___StyledSpan-sc-1qu1gou-2');
-
-  console.log("✔ Bot hizo clic en el botón Renew");
+  try {
+    await page.waitForSelector("span.Button___StyledSpan-sc-1qu1gou-2", { timeout: 15000 });
+    await page.click("span.Button___StyledSpan-sc-1qu1gou-2");
+    console.log("✔ Bot hizo clic en Renew");
+  } catch (err) {
+    console.error("❌ No se encontró el botón Renew:", err);
+  }
 
   await browser.close();
 }
