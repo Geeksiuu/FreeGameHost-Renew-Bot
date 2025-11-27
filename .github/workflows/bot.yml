@@ -1,7 +1,7 @@
 name: FreeGameHost-Renew-Bot
 on:
   schedule:
-    - cron: "0 * * * *"   # Cada hora
+    - cron: "30 */2 * * *"   # Cada 2 horas a los 30 minutos
   workflow_dispatch:
 jobs:
   run-bot:
