@@ -14,7 +14,7 @@ async function runBot() {
   await page.setCookie(...cookies);
 
   // Ir directamente al servidor
-  await page.goto("https://panel.freegamehost.xyz/server/bb072ba6", {
+  await page.goto("https://panel.freegamehost.xyz/server/0bfe8b47", {
     waitUntil: "networkidle2"
   });
 
@@ -23,19 +23,25 @@ async function runBot() {
   // Esperar a que aparezca el botón correcto
   await page.waitForFunction(() => {
     return [...document.querySelectorAll("button")].some(btn =>
-      btn.textContent.trim() === "+ Add 6 hours"
+      btn.textContent.includes("+ Add 6 hours")
     );
   }, { timeout: 60000 });
 
-  // Hacer clic en el botón real
+  // Hacer clic en el botón
   await page.evaluate(() => {
-    const button = [...document.querySelectorAll("button")].find(btn =>
-      btn.textContent.trim() === "+ Add 6 hours"
+    const btn = [...document.querySelectorAll("button")].find(b =>
+      b.textContent.includes("+ Add 6 hours")
     );
-    if (button) button.click();
+    if (btn) btn.click();
   });
 
-  console.log("✔ Bot hizo clic en el botón '+ Add 6 hours' (BOTÓN REAL)");
+  console.log("✔ Bot hizo clic en '+ Add 6 hours'");
+  console.log("⌛ Esperando 11 segundos...");
+
+  // Esperar 11 segundos
+  await page.waitForTimeout(11000);
+
+  console.log("✔ 11 segundos completados.");
 
   await browser.close();
 }
