@@ -18,17 +18,24 @@ async function runBot() {
     waitUntil: "networkidle2"
   });
 
-  console.log("Página cargada. Buscando botón Renew...");
+  console.log("Página cargada. Buscando botón '+ Add 6 hours'...");
 
-  // Esperar al botón (usa el selector real)
-  await page.waitForSelector('span.Button___StyledSpan-sc-1qu1gou-2', {
-    timeout: 60000
+  // Esperar específicamente el botón correcto por texto
+  await page.waitForFunction(() => {
+    return [...document.querySelectorAll("button")].some(btn =>
+      btn.textContent.includes("+ Add 6 hours")
+    );
+  }, { timeout: 60000 });
+
+  // Dar clic al botón correcto
+  await page.evaluate(() => {
+    const btn = [...document.querySelectorAll("button")].find(b =>
+      b.textContent.includes("+ Add 6 hours")
+    );
+    if (btn) btn.click();
   });
 
-  // Dar clic
-  await page.click('span.Button___StyledSpan-sc-1qu1gou-2');
-
-  console.log("✔ Bot hizo clic en el botón Renew");
+  console.log("✔ Bot hizo clic en '+ Add 6 hours'");
 
   await browser.close();
 }
