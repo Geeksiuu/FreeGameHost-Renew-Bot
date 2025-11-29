@@ -1,0 +1,27 @@
+name: AFK Bot
+
+on:
+  schedule:
+    # Ejecuta cada hora en el minuto 0
+    - cron: '0 * * * *'
+  workflow_dispatch:  # Permite ejecutarlo manualmente
+
+jobs:
+  afk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60   # Tiempo máximo del job
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run AFK bot
+        run: node afk.js
