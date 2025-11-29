@@ -3,7 +3,7 @@ const cookies = require("./cookies.json");
 
 (async () => {
   const browser = await puppeteer.launch({
-    headless: true,   // true para GitHub Actions
+    headless: true, // true para GitHub Actions
     args: ["--no-sandbox", "--disable-setuid-sandbox"]
   });
 
