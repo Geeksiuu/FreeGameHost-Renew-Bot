@@ -1,17 +1,8 @@
 {
-  "dependencies": {
-    "puppeteer": "^24.31.0"
-  },
-  "name": "nueva-carpeta-(2)",
+  "name": "afk-bot",
   "version": "1.0.0",
-  "description": "",
-  "main": "generateCookies.js",
-  "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs"
+  "main": "afk.js",
+  "dependencies": {
+    "puppeteer": "^21.0.0"
+  }
 }
