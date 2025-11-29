@@ -3,7 +3,7 @@ const cookies = require("./cookies.json");
 
 (async () => {
   const browser = await puppeteer.launch({
-    headless: true, // true para GitHub Actions
+    headless: true,
     args: ["--no-sandbox", "--disable-setuid-sandbox"]
   });
 
@@ -20,7 +20,7 @@ const cookies = require("./cookies.json");
   console.log("✅ AFK iniciado...");
 
   // Mantener 50 minutos AFK
-  await page.waitForTimeout(50 * 60 * 1000);
+  await new Promise(resolve => setTimeout(resolve, 50 * 60 * 1000));
 
   console.log("⏰ 50 minutos terminados, cerrando navegador...");
   await browser.close();
